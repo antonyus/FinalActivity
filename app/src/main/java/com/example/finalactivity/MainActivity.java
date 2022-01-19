@@ -22,7 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
-
+//inheritance
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, Serializable {
 
     private static final String TAG = "Main Activity Log";
@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
 
-        Toast.makeText(this, "You are in LogIn Page", Toast.LENGTH_SHORT)
-                .show();
+        //Toast.makeText(this, "You are in LogIn Page", Toast.LENGTH_SHORT)
+                //.show();
     }
 
     //handleSignInRESULT
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //updateUI
-    //updating UI according to account
+    //updating screen layout
     public void updateUI(@Nullable GoogleSignInAccount googleSignInAccount) {
 
         if (googleSignInAccount != null) {

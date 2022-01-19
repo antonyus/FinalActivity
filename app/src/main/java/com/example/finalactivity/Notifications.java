@@ -14,20 +14,16 @@ import android.preference.PreferenceManager;
 import androidx.core.app.NotificationCompat;
 
 
-public class UtilityClass {
+public class Notifications {
     private static final int NOTIFICATION_ID = 0;
     private static final String CHANNEL_ID = "channel0";
     Context context;
     NotificationManager notificationManager;
 
-    public UtilityClass(Context context) {
+    public Notifications(Context context) {
         this.context = context;
     }
 
-
-    /*Starting in Android 8.0 (API level 26), all notifications must be assigned to a channel.
-    For each channel, you can set the visual and auditory behavior that is applied to all notifications in that channel.
-    Then, users can change these settings and decide which notification channels from your app should be intrusive or visible at all.*/
     //createNotificationChannel
     //sends individual notifications for each activity
     protected void createNotificationChannel(Class c, String profPicUrl, String firstAndLastName, String username,  String email, String phone) {
@@ -41,10 +37,6 @@ public class UtilityClass {
             notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-
-       /* An Intent provides a facility for performing late runtime binding between the code in different applications.
-       Its most significant use is in the launching of activities, where it can be thought of as the glue between activities.
-       It is basically a passive data structure holding an abstract description of an action to be performed.*/
 
         Intent intent = new Intent(context, c);
         intent.putExtra("profilePic", profPicUrl);

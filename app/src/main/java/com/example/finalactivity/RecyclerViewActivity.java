@@ -76,14 +76,14 @@ public class RecyclerViewActivity extends AppCompatActivity implements View.OnCl
         notificationManager = NotificationManagerCompat.from(this);
 
         recyclerView = findViewById(R.id.recViewUser);
-        signOutButton = findViewById(R.id.sign_in);
+        signOutButton = findViewById(R.id.sign_out_recycler);
 
         userArrayList = new ArrayList<>();
         gson = new Gson();
         client = new OkHttpClient();
 
 
-
+        //pulling info from google
         String signedUserName, signedUserEmail, signedUserProfilePicture;
         googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
         signedUserProfilePicture = String.valueOf(googleSignInAccount.getPhotoUrl());
@@ -92,6 +92,7 @@ public class RecyclerViewActivity extends AppCompatActivity implements View.OnCl
         signedUserEmail = googleSignInAccount.getEmail();
         User googleUser = new User(signedUserName, signedUserEmail, signedUserProfilePicture);
 
+        //if user doesnt log out and closes app data is saved
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         isAlreadyCalled = sharedPrefs.getBoolean("isDestroyedCalled", isAlreadyCalled);
         SharedPreferences.Editor editor = sharedPrefs.edit();
@@ -99,7 +100,7 @@ public class RecyclerViewActivity extends AppCompatActivity implements View.OnCl
         editor.apply();
 
 
-        if (!isAlreadyCalled) {
+        if (!isAlreadyCalled) {//new initialization after user is logged in
             try {
                 run();
                 userArrayList.add(googleUser);
@@ -110,15 +111,16 @@ public class RecyclerViewActivity extends AppCompatActivity implements View.OnCl
 
         }
 
-        else{
+        else{//if destroyed or comes from other activity with saved data, retrieves data
             retrieveData();
-            Log.d(TAG, "onCreate Eroor Log: ");
+            Log.d(TAG, "onCreate coming from other activity or app was destroyed ");
         }
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         userAdapter = new UserAdapter(this, userArrayList);
         recyclerView.setAdapter(userAdapter);
+        //signout
         findViewById(R.id.sign_out_recycler).setOnClickListener(this);
     }
 
@@ -133,6 +135,7 @@ public class RecyclerViewActivity extends AppCompatActivity implements View.OnCl
 
 
     //onPause
+    //saves info when user leaves. For example when going from main page to individual user page
     @Override
     protected void onPause() {
         super.onPause();
@@ -230,9 +233,10 @@ public class RecyclerViewActivity extends AppCompatActivity implements View.OnCl
     }
 
     //newView
-    //from user array tp dynamic array
+    //from user array and loops through dynamic forloop
     @SuppressLint("NotifyDataSetChanged")
     public void newView(User[] users) {
+        //dynamic forloop
         int i = 0;
         for (User u : users) {
             u.setProfilePic(PICTUREINFO + i);

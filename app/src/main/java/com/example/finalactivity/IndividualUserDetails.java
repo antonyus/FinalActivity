@@ -59,6 +59,7 @@ public class IndividualUserDetails extends AppCompatActivity implements View.OnC
     public Intent intent;
     private ArrayList<User> userArrayList;
     String profPicValue, firstAndLastNameValue, usernameValue, emailValue, phoneValue;
+    //Compatibility library for NotificationManager with fallbacks for older platforms.
     NotificationManagerCompat notificationManager;
     UtilityClass utilityClass;
 
@@ -92,7 +93,7 @@ public class IndividualUserDetails extends AppCompatActivity implements View.OnC
         //Notification control between activities
         RecyclerViewActivity.isActivityCalled = false;
         notificationManager.cancelAll(); //cancel all background notification when user is back
-        Log.d(TAG, "onResume: ");
+        Log.d(TAG, "onResume Log: ");
     }
 
     //onPause
@@ -106,23 +107,25 @@ public class IndividualUserDetails extends AppCompatActivity implements View.OnC
         if (!RecyclerViewActivity.isActivityCalled) {
             utilityClass.createNotificationChannel(getClass(), getIntent().getStringExtra("profilePic"),
                     getIntent().getStringExtra("firstAndLastName"), getIntent().getStringExtra("username"), getIntent().getStringExtra("email"), getIntent().getStringExtra("phone"));
+            Log.d(TAG, "onPause Log: ");
         }
         //else destroyed
         utilityClass.onDestroyControl();
+        Log.d(TAG, "onPause destroyed Log: ");
     }
 
     //onDestroy
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy: ");
+        Log.d(TAG, "onDestroy Log: ");
     }
 
     //onBackPressed
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "Back Button Pressed", Toast.LENGTH_SHORT)
-                .show();
+        //Toast.makeText(this, "Back Button Pressed", Toast.LENGTH_SHORT)
+                //.show();
         goBackToRecyclerView();
     }
     //onBackToRecyclerView
@@ -136,7 +139,9 @@ public class IndividualUserDetails extends AppCompatActivity implements View.OnC
 
 
     //saveIt
-    //savesData
+    //saves data
+    //should save data if changed by user
+    //pushes back to json style into memory with SharedPreferences
     public void saveIt() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Gson gson = new Gson();
@@ -191,6 +196,7 @@ public class IndividualUserDetails extends AppCompatActivity implements View.OnC
     }
 
     //onRestoreInstanceState
+    //brings back info from save instance
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);

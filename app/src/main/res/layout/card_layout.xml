@@ -50,7 +50,8 @@
             android:text="@string/email"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/universal_phone"
